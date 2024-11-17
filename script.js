@@ -21,8 +21,6 @@ async function fetchMarvelData() {
   }
 }
 
-// Implement functions to interact with Spotify API using SPOTIFY_CLIENT_ID and SPOTIFY_CLIENT_SECRET
-
 function createQuizQuestions(characters) {
   const questions = [];
   characters.forEach((character) => {
@@ -95,24 +93,38 @@ async function startQuiz() {
   displayQuestion(questions[currentQuestionIndex]);
 }
 
-// (Optional) Play Spotify music using the Spotify Web Playback SDK
-// See: https://developer.spotify.com/documentation/web-playback-sdk/quick-start/
-
-function startMusic() {
-  // Implement logic to use Spotify Web Playback SDK
-}
-
 startQuiz();
 // ... (Quiz logic)
 
 const player = new Spotify.Player({
   name: "Marvel Quiz",
   getOAuthToken: (cb) => {
-    // Implement OAuth token retrieval logic here using your Client ID and Client Secret
-    // You'll need to obtain an access token and call cb(accessToken)
+    const clientId = SPOTIFY_CLIENT_ID;
+    const clientSecret = SPOTIFY_CLIENT_SECRET;
+    const base64Credentials = Buffer.from(
+      `${clientId}:${clientSecret}`
+    ).toString("base64");
+
+    const tokenEndpoint = "https://accounts.spotify.com/api/token";
+
+    fetch(tokenEndpoint, {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${base64Credentials}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: "grant_type=client_credentials",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const accessToken = data.access_token;
+        cb(accessToken);
+      })
+      .catch((error) => {
+        console.error("Error  fetching token:", error);
+      });
   },
 });
-
 player.addListener("initialization_error", ({ message }) => {
   console.error(message);
 });
