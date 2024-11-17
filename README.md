@@ -1,6 +1,9 @@
 # CTD-Project
-
+## Marvel @ My Quiz
 Code the Dream Pre-Work Advanced Assignment
+Programmed by E. Hunter Petross
+StrayDog Syndications LLC 2024 All Rights Reserved.
+www.straydog-syndications-llc.com
 
 ## Description
 A simple quiz game that utilizes the Marvel API to generate the questions and validate the answers, then utilizes the Spotify API for theme music and interactive sounds.
