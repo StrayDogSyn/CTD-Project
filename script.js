@@ -86,6 +86,38 @@ function nextQuestion() {
     resultElement.textContent = `Quiz Over! Your score is ${score}/${questions.length}`;
   }
 }
+function displayQuestion(question) {
+  const questionElement = document.getElementById("question");
+  questionElement.textContent = question.question;
+
+  const answersElement = document.getElementById("answers");
+  answersElement.innerHTML = "";
+
+  question.answers.forEach((answer, index) => {
+    const button = document.createElement("button");
+    button.textContent = answer;
+    button.addEventListener("click", () =>
+      checkAnswer(index, question.correctAnswer)
+    );
+    answersElement.appendChild(button);
+  });
+}
+
+function displayResult(isCorrect) {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = isCorrect ? "Correct!" : "Incorrect.";
+}
+
+function nextQuestion() {
+  currentQuestionIndex++;
+  if (currentQuestionIndex < questions.length) {
+    displayQuestion(questions[currentQuestionIndex]);
+  } else {
+    // Quiz is over, display final score
+    const resultElement = document.getElementById("result");
+    resultElement.textContent = `Quiz Over! Your score is ${score}/${questions.length}`;
+  }
+}
 async function startQuiz() {
   const characters = await fetchMarvelData();
   const questions = createQuizQuestions(characters);
