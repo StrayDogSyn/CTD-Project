@@ -7,6 +7,7 @@ www.straydog-syndications-llc.com
 
 ## Description
 A simple quiz game that utilizes the Marvel API to generate the questions and validate the answers, then utilizes the Spotify API for theme music and interactive sounds.
+The original coding project from my TLM (The Last Mile) project is also included and can be navigated to/from the hidden nav (?) icon on each of the pages.
 
 ### Technologies Used
 1. Vanilla JavaScript for programming logic

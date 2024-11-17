@@ -153,7 +153,7 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const spotifyApi = new SpotifyWebApi({
   clientId: SPOTIFY_CLIENT_ID,
   clientSecret: SPOTIFY_CLIENT_SECRET,
-  redirectUri: "YOUR_REDIRECT_URI",
+  redirectUri: "https://www.straydog-syndications-llc.com",
 });
 
 spotifyApi

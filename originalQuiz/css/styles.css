@@ -1,0 +1,112 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background:
+      url(../../../../assets/svg/bg-pattern-bottom-desktop.svg) bottom right no-repeat fixed,
+      url(../../../../assets/svg/bg-pattern-top-desktop.svg) left top no-repeat fixed;
+  }
+body {
+  width: 475px;
+  height: auto;
+  margin: 0 auto;
+  box-shadow: 24px 24px 48px rgba(0,0,0,.5);
+}
+header {
+  font: bold 36px/120% Arial, Helvetica, sans-serif;
+  background: #333;
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0, 33%),
+                    rgba(204,204,204, 66%));
+  color: #c00;
+}
+#intro {
+  font-size: 1.75rem;
+  color: crimson;
+  text-shadow: -1px 2px 4px black;
+}
+button {
+  text-align: center;
+  font: bold 24px/150% Arial, Helvetica, sans-serif;
+  display: block;
+  width: 300px;
+  margin: 1.75rem auto;
+
+}
+.text-answer {
+  text-align: center;
+  border: 3px solid black;
+  box-shadow: 12px 12px 24px rgba(0,0,0,.5);
+}
+#timer{
+ text-align: center;
+}
+#start {
+  position: sticky;
+  top: 5px;
+  right: 75px;
+  max-width: fit-content;
+  margin: 5px auto;
+  padding: 5px;
+  line-height: 1.025;
+  font-family: Arial, sans-serif;
+  background: #a9a9a9;
+  text-shadow: -4px 4px 3px slategrey, 1px -1px 2px black;
+  box-shadow: 12px 12px 24px rgba(0,0,0,.5);
+  font-weight: bold;
+  border: 8px solid;
+  text-decoration: none;
+  border-top-color: #dfdfdf;
+  border-right-color: #666;
+  border-bottom-color: #333;
+  border-left-color: #858585;
+  cursor: pointer;
+}
+.top-label[for="toggle"] {
+  font-size: 3rem;
+  color: silver;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  z-index: 1;
+  cursor: pointer;
+}
+
+input[type="checkbox"] {
+  position: absolute;
+  top: -100px;
+}
+#hidden-nav {
+  background-color: rgba(255,255,255, 0.4);
+  color: black;
+  background-image:
+    linear-gradient(45deg, rgba(0,0,0, 33%),
+                    rgba(204,204,204, 66%));
+  width: 375px;
+  max-height: fit-content;
+  padding: 0 18px;
+  overflow: auto;
+  position: fixed;
+  top: 0;
+  right: -370px;
+  overflow: auto;
+  transition: 0.6s all;
+}
+input[type=checkbox]:checked + #hidden-nav {
+  right: 0.1px;
+}
+#answer {
+  background: #a9a9a9;
+  box-shadow: 12px 12px 24px rgba(0,0,0,.5);
+  border-radius: 14px;
+  border-width: 8px;
+  border-style: solid;
+  border-top-color: #dfdfdf;
+  border-right-color: #666;
+  border-bottom-color: #333;
+  border-left-color: #858585;
+}
+button:hover {
+  color: gold;
+  background-color: dimgrey;
+}
