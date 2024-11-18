@@ -24,21 +24,43 @@ async function fetchMarvelData() {
 function createQuizQuestions(characters) {
   const questions = [];
   characters.forEach((character) => {
+    let incorrectOptions = [];
+    while (incorrectOptions.length < 2) {
+      let randomCharacter =
+        characters[Math.floor(Math.random() * characters.length)];
+      if (
+        randomCharacter.name !== character.name &&
+        !incorrectOptions.includes(randomCharacter.name)
+      ) {
+        incorrectOptions.push(randomCharacter.name);
+      }
+    }
+
     const question = {
       question: `Who is ${character.name}?`,
-      answers: [
-        character.description,
-        // Add more incorrect options here
-      ],
-      correctAnswer: 0, // Index of the correct answer
+      answers: [character.description, ...incorrectOptions],
+      correctAnswer: 0,
     };
     questions.push(question);
   });
   return questions;
 }
+
 let currentQuestionIndex = 0;
 let score = 0;
+document.getElementById("next-button").disabled = true;
 
+function checkAnswer(selectedAnswer, correctAnswer) {
+  // ... (existing logic for checking answer)
+
+  // Enable the "Next Question" button
+  document.getElementById("next-button").disabled = false;
+}
+
+document.getElementById("next-button").addEventListener("click", () => {
+  nextQuestion();
+  document.getElementById("next-button").disabled = true;
+});
 function displayQuestion(question) {
   const questionElement = document.getElementById("question");
   questionElement.textContent = question.question;
@@ -59,11 +81,14 @@ function displayQuestion(question) {
 function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
     score++;
-    // Play a correct answer sound effect from Spotify
-    playCorrectSound();
+    playCorrectSound().catch((error) =>
+      console.error("Error playing correct sound:", error)
+    );
+    return;
   } else {
-    // Play an incorrect answer sound effect from Spotify
-    playIncorrectSound();
+    playIncorrectSound().catch((error) =>
+      console.error("Error playing incorrect sound:", error)
+    );
   }
 
   // Display the result and the next question
@@ -86,26 +111,24 @@ function nextQuestion() {
     resultElement.textContent = `Quiz Over! Your score is ${score}/${questions.length}`;
   }
 }
-function displayQuestion(question) {
+function displayQuestionAndResult(data) {
+  const resultElement = document.getElementById("result");
+  resultElement.textContent = data.isCorrect ? "Correct!" : "Incorrect.";
+
   const questionElement = document.getElementById("question");
-  questionElement.textContent = question.question;
+  questionElement.textContent = data.question;
 
   const answersElement = document.getElementById("answers");
   answersElement.innerHTML = "";
 
-  question.answers.forEach((answer, index) => {
+  data.answers.forEach((answer, index) => {
     const button = document.createElement("button");
     button.textContent = answer;
     button.addEventListener("click", () =>
-      checkAnswer(index, question.correctAnswer)
+      checkAnswer(index, data.correctAnswer)
     );
     answersElement.appendChild(button);
   });
-}
-
-function displayResult(isCorrect) {
-  const resultElement = document.getElementById("result");
-  resultElement.textContent = isCorrect ? "Correct!" : "Incorrect.";
 }
 
 function nextQuestion() {
@@ -127,85 +150,33 @@ async function startQuiz() {
 
 startQuiz();
 // ... (Quiz logic)
-
-const player = new Spotify.Player({
-  name: "Marvel Quiz",
-  getOAuthToken: (cb) => {
-    const clientId = SPOTIFY_CLIENT_ID;
-    const clientSecret = SPOTIFY_CLIENT_SECRET;
-    const base64Credentials = Buffer.from(
-      `${clientId}:${clientSecret}`
-    ).toString("base64");
-
-    const tokenEndpoint = "https://accounts.spotify.com/api/token";
-
-    fetch(tokenEndpoint, {
-      method: "POST",
-      headers: {
-        Authorization: `Basic ${base64Credentials}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: "grant_type=client_credentials",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        const accessToken = data.access_token;
-        cb(accessToken);
-      })
-      .catch((error) => {
-        console.error("Error  fetching token:", error);
-      });
-  },
-});
-player.addListener("initialization_error", ({ message }) => {
-  console.error(message);
-});
-player.addListener("authentication_error", ({ message }) => {
-  console.error(message);
-});
-player.addListener("account_error", ({ message }) => {
-  console.error(message);
-});
-player.addListener("playback_error", ({ message }) => {
-  console.error(message);
-});
-
-// Ready event
-player.addListener("ready", ({ device_id }) => {
-  console.log("Ready with Device ID", device_id);
-});
-
-// Not Ready event
-player.addListener("not_ready", ({ device_id }) => {
-  console.log("Device ID has gone offline", device_id);
-});
-
-player.connect();
-function playCorrectSound() {
-  player.play({
-    uris: ["spotify:track:your_correct_answer_track_id"],
-  });
-}
-
-function playIncorrectSound() {
-  player.play({
-    uris: ["spotify:track:your_incorrect_answer_track_id"],
-  });
-}
-const SpotifyWebApi = require("spotify-web-api-node");
+import SpotifyWebApi from "spotify-web-api-js";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: SPOTIFY_CLIENT_ID,
   clientSecret: SPOTIFY_CLIENT_SECRET,
-  redirectUri: "https://www.straydog-syndications-llc.com",
 });
 
-spotifyApi
-  .clientCredentialsGrant()
-  .then((data) => {
+async function getAccessToken() {
+  try {
+    const data = await spotifyApi.clientCredentialsGrant();
     spotifyApi.setAccessToken(data.body["access_token"]);
-    // Now you can use the Spotify Web API to fetch track information, play music, etc.
-  })
-  .catch((error) => {
+  } catch (error) {
     console.error("Error getting token:", error);
-  });
+    // Handle error and display message to user (optional)
+  }
+}
+
+async function playSound(uri) {
+  await getAccessToken();
+  spotifyApi.play({ uris: [uri] });
+}
+
+function playCorrectOrIncorrectSound(isCorrect) {
+  const trackUri = isCorrect
+    ? "spotify:track:your_correct_answer_track_id"
+    : "spotify:track:your_incorrect_answer_track_id";
+  playSound(trackUri);
+}
+
+playCorrectOrIncorrectSound(true); // Example usage (replace with logic)
