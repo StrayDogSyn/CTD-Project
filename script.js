@@ -51,9 +51,16 @@ let score = 0;
 document.getElementById("next-button").disabled = true;
 
 function checkAnswer(selectedAnswer, correctAnswer) {
-  // ... (existing logic for checking answer)
+  // Check if the selected answer is correct
+  if (selectedAnswer === correctAnswer) {
+    // The answer is correct, do something, e.g., display a message
+    alert("Correct!");
+  } else {
+    // The answer is incorrect, do something, e.g., display a message
+    alert("Incorrect. The correct answer is: " + correctAnswer);
+  }
 
-  // Enable the "Next Question" button
+  // Enable the "Next Question" button regardless of the answer
   document.getElementById("next-button").disabled = false;
 }
 
