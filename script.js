@@ -111,6 +111,9 @@ function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
     score++;
     document.getElementById("feedback").textContent = "Correct!";
+    document.getElementById(
+      "scoreboard"
+    ).textContent = `Score: ${score}/${questions.length}`;
   } else {
     document.getElementById(
       "feedback"

@@ -3,124 +3,35 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Star Wars Quiz</title>
-</head>
+    <title>Star 1  Wars Quiz</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c2y4qWy+eLID210KVbzI0qEkk/b0nrYKz9r1j25/4rkW8IeGf45hZ1fH5jtRnqI+7y/j6" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <h1>Star Wars Quiz</h1>
-    <p id="question"></p>
-    <button id="answer1">Answer 1</button>
-    <button id="answer2">Answer 2</button>
-    <button id="answer3">Answer 3</button>
-    <button id="answer4">Answer 4</button>
-    <p id="feedback"></p>
-    <p id="score">Score: 0</p>
-    <p id="timer">Time left: 30s</p>
-    <img id="image" src="" alt="Star Wars Image">
-    <script>
-        let score = 0; // Initialize score
+	<div class="container-fluid text-center bg-danger">
+		<label class="top-label" for="toggle">❔</label>
+    <input type="checkbox" id="toggle">
+    <aside id="hidden-nav">
+      <a href="../index.html"><i class="fa fa-home fa-lg"></i> Home</a>
+      <br>
+    </aside>
 
-        // Function to fetch a random question (film or character)
-        function getRandomQuestion(difficulty) {
-            const choice = Math.random() < 0.5 ? 'films' : 'people';
-            const url = `https://swapi.dev/api/${choice}/?random=true`;
-            fetch(url)
-                .then(response => response.json())
-                .then(data => {
-                    let question;
-                    if (choice === 'films') {
-                        question = `What is the opening crawl of episode ${data.episode_id}?`;
-                    } else {
-                        question = `What is the homeworld of ${data.name}?`;
-                    }
-                    document.getElementById('question').textContent = question;
-
-                    // Adjust question generation and answer choices based on difficulty
-                    if (difficulty === 'easy') {
-                        // Generate simple multiple-choice questions
-                        // Example: Present multiple-choice options for a character's species or a film's director
-                        const easyOptions = ['Human', 'Droid', 'Wookiee', 'Other'];
-                        const randomEasyOption = easyOptions[Math.floor(Math.random() * easyOptions.length)];
-                        question += `\nHint: This character is a ${randomEasyOption}.`;
-                    } else if (difficulty === 'medium') {
-                        // Generate fill-in-the-blank questions with clues
-                        // Example: "Luke Skywalker's mentor was ____."
-                        question += `\nHint: This character is a wise Jedi Master.`;
-                    } else if (difficulty === 'hard') {
-                        // Generate true/false questions about obscure lore
-                        // Example: "The Yuuzhan Vong are a species of extragalactic invaders."
-                        question += `\nTrue or False?`;
-                    }
-
-                    // Generate random answers (including the correct one)
-                    const answers = [data[choice === 'films' ? 'opening_crawl' : 'homeworld']];
-                    for (let i = 1; i < 4; i++) {
-                        const randomIndex = Math.floor(Math.random() * data.results.length);
-                        answers.push(data.results[randomIndex][choice === 'films' ? 'opening_crawl' : 'homeworld']);
-                    }
-
-                    // Shuffle the answers
-                    answers.sort(() => Math.random() - 0.5);
-
-                    // Assign answers to buttons
-                    document.getElementById('answer1').textContent = answers[0];
-                    document.getElementById('answer2').textContent = answers[1];
-                    document.getElementById('answer3').textContent = answers[2];
-                    document.getElementById('answer4').textContent = answers[3];
-
-                    // Fetch and display image based on question category
-                    if (choice === 'people') {
-                        const imageUrl = data.url + 'images/1';
-                        document.getElementById('image').src = imageUrl;
-                    } else {
-                        // Handle image display for films (e.g., poster or scene)
-                        // You can use a service like The Movie Database (TMDb) to fetch movie posters
-                        // or use a library to download images from specific URLs.
-                        // ... (implementation for film image display)
-                    }
-
-                    // Set click event listeners for answers
-                    const buttons = document.querySelectorAll('button');
-                    buttons.forEach(button => {
-                        button.addEventListener('click', () => checkAnswer(button.textContent, choice, data));
-                    });
-                });
-        }
-
-        // Function to check the chosen answer
-        function checkAnswer(answer, category, data) {
-            const correctAnswer = data[category === 'films' ? 'opening_crawl' : 'homeworld'];
-            const feedback = document.getElementById('feedback');
-            if (answer === correctAnswer) {
-                feedback.textContent = 'Correct!';
-                score++;
-                document.getElementById('score').textContent = `Score: ${score}`;
-            } else {
-                feedback.textContent = `Incorrect. The answer is: ${correctAnswer}`;
-            }
-
-            // Clear feedback after a short delay
-            setTimeout(() => {
-                feedback.textContent = '';
-            }, 2000);
-
-            // Get a new question after checking the answer
-            getRandomQuestion();
-        }
-
-        // Timer implementation
-        let timeLeft = 30;
-        const timerElement = document.getElementById('timer');
-        const timerInterval = setInterval(() => {
-            timeLeft--;
-            timerElement.textContent = `Time left: ${timeLeft}s`;
-            if (timeLeft === 0) {
-                clearInterval(timerInterval);
-                checkAnswer(null, correctAnswer); // Handle time-out
-            }
-        }, 1000);
-
-        // Start the game by getting the first question
-        getRandomQuestion('medium'); // Set difficulty to medium
-    </script>
+    <div class="container text-yellow"> <h1 class="text-center mt-4 display-4 fw-bold">Star Wars Quiz</h1> <p id="question" class="text-center mt-3"></p>
+        <div class="d-flex justify-content-center mt-3">
+            <button id="answer1" class="btn btn-primary me-2">Answer 1</button>
+            <button id="answer2" class="btn btn-primary me-2">Answer 2</button>
+            <button id="answer3" class="btn btn-primary me-2">Answer 3</button>
+            <button id="answer4" class="btn btn-primary">Answer 4</button>
+        </div>
+        <p id="feedback" class="text-center mt-3"></p>
+        <p id="score" class="text-center mt-3">Score: 0</p>
+        <p id="timer" class="text-center mt-3">Time left: 30s</p>
+        <img id="image" src="" alt="Star Wars Image" class="img-fluid mx-auto d-block mt-3">
+        <div class="d-flex justify-content-center mt-3">
+            <button id="nextButton" class="btn btn-primary me-2">Next Question</button>
+            <button id="restartButton" class="btn btn-secondary">Restart Quiz</button>
+        </div>
+    </div>
+	</div>
+    <script src="script.js"></script>
 </body>
 </html>
