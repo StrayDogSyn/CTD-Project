@@ -1,31 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marvel Quiz</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="style.css"> <script src="https://sdk.scdn.co/spotify-player.js"></script>  </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marvel Quiz</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css"> </head>
 <body>
-    <div class="container d-flex flex-column align-items-center py-5">
-        <label class="top-label" for="toggle">❔</label>
-        <input type="checkbox" id="toggle">
-        <aside id="hidden-nav">
-          <a href="./originalQuiz/index.html"><i class="fa fa-home fa-lg"></i> Original Quiz</a>
-          <br>
-        </aside>
-    
-        <header class="d-flex justify-content-between align-items-center mb-5 box-shadow">
-            <h1 class="display-4">Marvel Quiz</h1>
-        </header>
-        <div id="question" class="h3 mb-3"></div>
-        <div id="answers" class="d-flex flex-wrap justify-content-center"></div>
-        <div id="result" class="alert alert-dismissible fade show mt-3" role="alert"></div>
-        <button id="next-button" class="btn btn-primary disabled mb-4 box-shadow">Next Question</button>
-        <audio id="quiz-music" class="box-shadow complex" controls></audio>
+  <div class="container d-flex flex-column align-items-center py-5">
+    <label class="top-label" for="toggle">❔</label>
+    <input type="checkbox" id="toggle">
+    <aside id="hidden-nav" class="align-items-center">
+      <a href="./originalQuiz/index.html" class="btn btn-secondary my-2"><i class="fa fa-home fa-lg"></i> Original Quiz</a>
+      <br>
+      <a href="./starwars/index.html" class="btn btn-secondary mb-2"><i class="fa fa-resistance fa-lg"></i> Star Wars Quiz</a>
+    </aside>
+
+    <header class="d-flex justify-content-between align-items-center mb-5 box-shadow">
+      <h1 class="display-4">Marvel Quiz</h1>
+      <select id="difficulty" class="form-select">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <button id="start-button" class="btn btn-primary box-shadow">Start Quiz</button>
+    </header>
+
+    <div id="question" class="h3 mb-3"></div>
+    <div id="answers" class="d-flex flex-wrap justify-content-center"></div>
+    <div id="feedback" class="alert alert-dismissible fade show mt-3" role="alert"></div>
+    <p id="timer" class="mb-3"></p>
+    <button id="next-button" class="btn btn-primary disabled mb-4 box-shadow">Next Question</button>
+    <div id="result" class="alert alert-dismissible fade show mt-3" role="alert"></div>
+    <div id="progress-bar">
+      <div id="progress-bar-fill"></div>
     </div>
-    <script src="https://kit.fontawesome.com/c7c2b9d75e.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script> 
-    <script src="script.js"></script>  
+  </div>
+  <script src="https://kit.fontawesome.com/c7c2b9d75e.js" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
